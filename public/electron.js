@@ -11,7 +11,7 @@ const url =
 const createWindow = () => {
   win = new BrowserWindow({ width: 1000, height: 600 });
   win.loadURL(url);
-  win.webContents.openDevTools(); // Remove this line before distributing
+  if (process.env.NODE_ENV !== "production") win.webContents.openDevTools();
   win.on("closed", () => (win = null));
 };
 

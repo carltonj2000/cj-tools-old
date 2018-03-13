@@ -5,7 +5,7 @@
   "author": "Carlton Joseph",
   "private": true,
   "main": "public/electron.js",
-  "home": "./",
+  "homepage": "./",
   "dependencies": {
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -13,14 +13,14 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "NODE_ENV=production react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev":
       "concurrently -k \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "pack": "build --em.main=build/electron.js",
     "eb": "electron-builder",
-    "dist": "yarn pack && yarn eb",
+    "dist": "yarn build && yarn pack && yarn eb",
     "cjtools": "dist/linux-unpacked/cj-tools",
     "snap": "snap install --dangerous dist/cj-tools_0.1.0_amd64.snap"
   },
@@ -37,7 +37,8 @@
     "files": ["build/**/*", "node_modules/**/*"],
     "directories": { "buildResources": "assets" },
     "linux": {
-      "target": "snap"
+      "target": "snap",
+      "category": "Utility"
     }
   }
 }
