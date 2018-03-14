@@ -3,15 +3,19 @@ const path = require("path");
 
 let win = null;
 
-const url =
-  process.env.NODE_ENV === "production"
-    ? path.join(__dirname, "/build/index.html") // root at / not ./
-    : "http://localhost:3000";
+const production = process.env.NODE_ENV === "production";
+console.log(process.env);
+console.log(`ENV = ${process.env.NODE_ENV}, production = ${production}`);
 
+const url = true
+  ? `file://${path.join(__dirname, "index.html")}`
+  : "http://localhost:5432";
+
+console.log(url);
 const createWindow = () => {
   win = new BrowserWindow({ width: 1000, height: 600 });
   win.loadURL(url);
-  if (process.env.NODE_ENV !== "production") win.webContents.openDevTools();
+  win.webContents.openDevTools();
   win.on("closed", () => (win = null));
 };
 

@@ -12,16 +12,20 @@
     "react-scripts": "1.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "NODE_ENV=production react-scripts build",
+    "start": "PORT=5432 react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev":
-      "concurrently -k \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "pack": "build --em.main=build/electron.js",
-    "eb": "electron-builder",
-    "dist": "yarn build && yarn pack && yarn eb",
-    "cjtools": "dist/linux-unpacked/cj-tools",
+      "concurrently -k \"BROWSER=none yarn start\" \"wait-on http://localhost:5432 && NODE_ENV=development electron .\"",
+    "eb": "electron-builder build/electron.js",
+    "ecp": "cp -f public/electron.js build/electron.js",
+    "dist": "yarn build && yarn eb",
+    "cjtools": "./dist/linux-unpacked/cj-tools",
+    "ebrun": "yarn ecp && yarn eb && yarn cjtools",
+    "rerun": "yarn dist && yarn cjtools",
+    "clean": "rm -rf build dist",
+    "cleanrun": "yarn clean && yarn rerun",
     "snap": "snap install --dangerous dist/cj-tools_0.1.0_amd64.snap"
   },
   "devDependencies": {
@@ -35,10 +39,11 @@
     "productName": "Carlton's Tools",
     "copyright": "Copyright @ 2018 Carlton Joseph",
     "files": ["build/**/*", "node_modules/**/*"],
-    "directories": { "buildResources": "assets" },
+    "directories": { "buildResources": "public" },
     "linux": {
-      "target": "snap",
-      "category": "Utility"
+      "target": "dir",
+      "category": "Utility",
+      "icon": "build/icon.png"
     }
   }
 }
